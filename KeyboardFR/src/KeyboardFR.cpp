@@ -36,25 +36,25 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
     0x85, 0x02,                    //   REPORT_ID (2)
     0x05, 0x07,                    //   USAGE_PAGE (Keyboard)
    
-  0x19, 0xe0,                    //   USAGE_MINIMUM (Keyboard LeftControl)
+  	0x19, 0xe0,                    //   USAGE_MINIMUM (Keyboard LeftControl)
     0x29, 0xe7,                    //   USAGE_MAXIMUM (Keyboard Right GUI)
     0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
     0x25, 0x01,                    //   LOGICAL_MAXIMUM (1)
     0x75, 0x01,                    //   REPORT_SIZE (1)
     
-  0x95, 0x08,                    //   REPORT_COUNT (8)
+  	0x95, 0x08,                    //   REPORT_COUNT (8)
     0x81, 0x02,                    //   INPUT (Data,Var,Abs)
     0x95, 0x01,                    //   REPORT_COUNT (1)
     0x75, 0x08,                    //   REPORT_SIZE (8)
     0x81, 0x03,                    //   INPUT (Cnst,Var,Abs)
     
-  0x95, 0x06,                    //   REPORT_COUNT (6)
+  	0x95, 0x06,                    //   REPORT_COUNT (6)
     0x75, 0x08,                    //   REPORT_SIZE (8)
     0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
     0x25, 0x73,                    //   LOGICAL_MAXIMUM (115)
     0x05, 0x07,                    //   USAGE_PAGE (Keyboard)
     
-  0x19, 0x00,                    //   USAGE_MINIMUM (Reserved (no event indicated))
+  	0x19, 0x00,                    //   USAGE_MINIMUM (Reserved (no event indicated))
     0x29, 0x73,                    //   USAGE_MAXIMUM (Keyboard Application)
     0x81, 0x00,                    //   INPUT (Data,Ary,Abs)
     0xc0,                          // END_COLLECTION
@@ -125,14 +125,14 @@ const uint8_t _asciimap[256] =
   0x2c,		   				// ' '
   0x38,	   					// ! 
   0x20,    					// "
-  0x60,    					// #
+  0x20|ALTGR,    	    	// #
   0x30,    					// $
   0x34|SHIFT,    		// %
   0x1E,    					// & 
   0x21,          		// '
   0x22,    					// (
   0x2d,    					// )
-  0x31,    					// *
+  0x32,    					// *
   0x2e|SHIFT,       // +
   0x10,             // , 
   0x23,             // -
@@ -152,7 +152,7 @@ const uint8_t _asciimap[256] =
   0x36,             // ;
   0x03,      				// < Done
   0x2e,          		// =
-  0x83|SHIFT,       // > Done
+  0x03|SHIFT,       // > Done
   0x10|SHIFT,       // ? 0x38 -> 0x10 OK
   0x27|ALTGR,       // @
   0x14|SHIFT,       // A
@@ -181,9 +181,9 @@ const uint8_t _asciimap[256] =
   0x1b|SHIFT,       // X
   0x1c|SHIFT,       // Y
   0x1a|SHIFT,       // Z
-  0x62,          		// [
-  0x65,          		// backslash
-  0x6d,          		// ]
+  0x22|ALTGR,  		// [
+  0x25|ALTGR,          		// backslash
+  0x2d|ALTGR,          		// ]
   0x26|ALTGR,    		// ^
   0x25,    					// _
   0x24|ALTGR,       // `
@@ -213,139 +213,139 @@ const uint8_t _asciimap[256] =
   0x1b,          		// x
   0x1c,          		// y
   0x1a,          		// z
-  0x61,    			 		// {
-  0x63,    			 		// |
-  0x6e,    			 		// }
-  0x5f,    			 		// ~
+  0x21|ALTGR,    			 		// {
+  0x23|ALTGR,    			 		// |
+  0x2e|ALTGR,    			 		// }
+  0x1f|ALTGR,    			 		// ~
   0,						  	// DEL
-	0x08|ALTGR,      	// €
-	0x00,             // NUL
-	0x00,             // SOH
-	0x00,             // STX
-	0x00,             // ETX
-	0x00,             // EOT
-	0x00,             // ENQ
-	0x00,             // ACK  
-	0x00,             // BEL
-	0x2a,							// BS	Backspace
-	0x2b,							// TAB	Tab
-	0x28,							// LF	Enter
-	0x00,             // VT 
-	0x00,             // FF 
-	0x00,             // CR 
-	0x00,             // SO 
-	0x00,             // SI 
-	0x00,             // DEL
-	0x00,             // DC1
-	0x00,             // DC2
-	0x00,             // DC3
-	0x00,             // DC4
-	0x00,             // NAK
-	0x00,             // SYN
-	0x00,             // ETB
-	0x00,             // CAN
-	0x00,             // EM 
-	0x00,             // SUB
-	0x00,             // ESC
-	0x00,             // FS 
-	0x00,             // GS 
-	0x00,             // RS 
-	0x00,             // US 
-	0x2c|ALTGR,       // nobr
-	0x1e|ALTGR|SHIFT, // ¡
-	0x30|SHIFT,       // £
-	0x30|ALTGR,				// ø
-	0,
-	0,   
-	0x38|SHIFT,       // §
-	0x20,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0x2d|SHIFT,       // °
-	0,
-	0x35,             // ²
-	0,
-	0,
-	0x31|SHIFT,       // acute
-	0x31|SHIFT,       // µ
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0x27,             // à
-	0,
-	0,                // â
-	0,
-	0,                // ä
-	0,
-	0,                // æ
-	0x26,             // ç
-	0x24,             // è
-	0x1f,             // é
-	0,                // ê
-	0,                // ë
-	0,
-	0,
-	0,                // î
-	0,                // ï
-	0,
-	0,
-	0,
-	0,
-	0,                // ô
-	0,
-	0,	              // ö
-	0,
-	0,
-	0x34,             // ù
-	0,
-	0,			          // û
-	0,			          // ü
-	0,
-	0,
-	0
+  0x08|ALTGR,      	// €
+  0x00,             // NUL
+  0x00,             // SOH
+  0x00,             // STX
+  0x00,             // ETX
+  0x00,             // EOT
+  0x00,             // ENQ
+  0x00,             // ACK  
+  0x00,             // BEL
+  0x2a,							// BS	Backspace
+  0x2b,							// TAB	Tab
+  0x28,							// LF	Enter
+  0x00,             // VT 
+  0x00,             // FF 
+  0x00,             // CR 
+  0x00,             // SO 
+  0x00,             // SI 
+  0x00,             // DEL
+  0x00,             // DC1
+  0x00,             // DC2
+  0x00,             // DC3
+  0x00,             // DC4
+  0x00,             // NAK
+  0x00,             // SYN
+  0x00,             // ETB
+  0x00,             // CAN
+  0x00,             // EM 
+  0x00,             // SUB
+  0x00,             // ESC
+  0x00,             // FS 
+  0x00,             // GS 
+  0x00,             // RS 
+  0x00,             // US 
+  0,                // nobr
+  0,                //
+  0x30|SHIFT,       // £
+  0x30|ALTGR,				// ø
+  0,
+  0,   
+  0x38|SHIFT,       // §
+  0x20,             // "
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0x2d|SHIFT,       // °
+  0,
+  0x35,             // ²
+  0x35|SHIFT,       // ³
+  0,
+  0x31|SHIFT,       // µ
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0x27,             // à
+  0,
+  0,                // â
+  0,
+  0,                // ä
+  0,
+  0,                // æ
+  0x26,             // ç
+  0x24,             // è
+  0x1f,             // é
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0x34,             // ù
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
 };
 
 
@@ -358,23 +358,28 @@ uint8_t USBPutChar(uint8_t c);
 size_t Keyboard_::press(uint8_t k) 
 {
 	uint8_t i;
-	k = pgm_read_byte(_asciimap + k);
-	if (!k) {
-		setWriteError();
-		return 0;
+	if (k == 131) {	// if key is windows key
+		_keyReport.modifiers |= (1<<(k-128));
+		k = 0;
+	} else {	
+		k = pgm_read_byte(_asciimap + k);
+		if (!k) {
+			setWriteError();
+			return 0;
+		}
+		
+		if (k & 0x80) {						// it's a capital letter or other character reached with shift
+			_keyReport.modifiers |= 0x02;	// the left shift modifier
+			k &= 0x7F;
+		}
+		if (k & 0x40) {
+			_keyReport.modifiers |= 0x40;
+			k &= 0x3F;
+		}
+		if (k == 0x03) { // special case 0x64
+			k = 0x64;
+		}
 	}
-	if (k & 0x80) {						// it's a capital letter or other character reached with shift
-		_keyReport.modifiers |= 0x02;	// the left shift modifier
-		k &= 0x7F;
-	}
-	if (k & 0x40) {
-		_keyReport.modifiers |= 0x40;
-		k &= 0x3F;
-	}
-	if (k == 0x03) { // special case 0x64
-		k = 0x64;
-	}
-	
 	// Add k to the key report only if it's not already present
 	// and if there is an empty slot.
 	if (_keyReport.keys[0] != k && _keyReport.keys[1] != k && 

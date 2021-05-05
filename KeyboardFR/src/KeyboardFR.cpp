@@ -181,9 +181,9 @@ const uint8_t _asciimap[256] =
   0x1b|SHIFT,       // X
   0x1c|SHIFT,       // Y
   0x1a|SHIFT,       // Z
-  0x22|ALTGR,  		// [
-  0x25|ALTGR,          		// backslash
-  0x2d|ALTGR,          		// ]
+  0x22|ALTGR,  		  // [
+  0x25|ALTGR,       // backslash
+  0x2d|ALTGR,       // ]
   0x26|ALTGR,    		// ^
   0x25,    					// _
   0x24|ALTGR,       // `
@@ -213,10 +213,10 @@ const uint8_t _asciimap[256] =
   0x1b,          		// x
   0x1c,          		// y
   0x1a,          		// z
-  0x21|ALTGR,    			 		// {
-  0x23|ALTGR,    			 		// |
-  0x2e|ALTGR,    			 		// }
-  0x1f|ALTGR,    			 		// ~
+  0x21|ALTGR,    		// {
+  0x23|ALTGR,    		// |
+  0x2e|ALTGR,    		// }
+  0x1f|ALTGR,    		// ~
   0,						  	// DEL
   0x08|ALTGR,      	// €
   0x00,             // NUL
@@ -358,31 +358,42 @@ uint8_t USBPutChar(uint8_t c);
 size_t Keyboard_::press(uint8_t k) 
 {
 	uint8_t i;
-	if (k == 131) {	// if key is windows key
-		_keyReport.modifiers |= (1<<(k-128));
-		k = 0;
-	} else {	
-		k = pgm_read_byte(_asciimap + k);
-		if (!k) {
-			setWriteError();
-			return 0;
+
+	if(k>=0xB0 && k<=0xDA){			//it's a non-printing key
+		if(k>=0xB5 && k<=0xBE){		//0xB5-0xBE reserved for special non printing keys asigned manually
+			if(k==0xB5) k=0x65;	//0xB5 ==> 0x76 (MENU key)
+			if(k==0xB6) k=0x46;	//0xB6 ==> 0x46 (PRINT Screen key)
 		}
-		
-		if (k & 0x80) {						// it's a capital letter or other character reached with shift
-			_keyReport.modifiers |= 0x02;	// the left shift modifier
-			k &= 0x7F;
-		}
-		if (k & 0x40) {
-			_keyReport.modifiers |= 0x40;
-			k &= 0x3F;
-		}
-		if (k == 0x03) { // special case 0x64
-			k = 0x64;
+		else{
+			k = k - 136;
 		}
 	}
+	else {
+    if(k>=0x80 && k<=0x87){			//it's a modifier
+      _keyReport.modifiers |= (1<<(k-128));
+      k = 0;
+    }
+    else{					//it's a printable key
+
+      k = pgm_read_byte(_asciimap + k);
+
+      if (k & 0x80) {				// it's a capital letter or other character reached with shift
+        _keyReport.modifiers |= 0x02;	// the left shift modifier
+        k &= 0x7F;
+      }
+      if (k & 0x40) {				// altgr modifier (RIGHT_ALT)
+        _keyReport.modifiers |= 0x40;	// the left shift modifier
+        k &= 0x3F;
+      }
+      if (k == 0x03) { // special case 0x64
+        k = 0x64;
+      }
+    }
+	}
+
 	// Add k to the key report only if it's not already present
 	// and if there is an empty slot.
-	if (_keyReport.keys[0] != k && _keyReport.keys[1] != k && 
+	if (_keyReport.keys[0] != k && _keyReport.keys[1] != k &&
 		_keyReport.keys[2] != k && _keyReport.keys[3] != k &&
 		_keyReport.keys[4] != k && _keyReport.keys[5] != k) {
 		
@@ -397,6 +408,7 @@ size_t Keyboard_::press(uint8_t k)
 			return 0;
 		}	
 	}
+
 	sendReport(&_keyReport);
 	return 1;
 }

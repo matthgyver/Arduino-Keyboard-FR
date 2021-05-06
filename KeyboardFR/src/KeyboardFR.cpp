@@ -413,28 +413,46 @@ size_t Keyboard_::press(uint8_t k)
 	return 1;
 }
 
-// release() takes the specified key out of the persistent key report and
-// sends the report.  This tells the OS the key is no longer pressed and that
-// it shouldn't be repeated any more.
-size_t Keyboard_::release(uint8_t k) 
+size_t Keyboard_::release(uint8_t k)
 {
 	uint8_t i;
-	k = pgm_read_byte(_asciimap + k);
-	if (!k) {
-		return 0;
+
+	if(k>=0xB0 && k<=0xDA){			//it's a non-printing key
+		if(k>=0xB5 && k<=0xBE){		//0xB5-0xBE reserved for special non printing keys asigned manually
+			if(k==0xB5) k=0x65;	//0xB5 ==> 0x76 (MENU key)
+			if(k==0xB6) k=0x46;	//0xB6 ==> 0x46 (PRINT Scr key)
+		}
+		else{
+			k = k - 136;
+		}
 	}
-	if (k & 0x80) {							// it's a capital letter or other character reached with shift
-		_keyReport.modifiers &= ~(0x02);	// the left shift modifier
-		k &= 0x7F;
+	else {
+    if(k>=0x80 && k<=0x87){			//it's a modifier
+      _keyReport.modifiers &= ~(1<<(k-128));
+      k = 0;
+    }
+    else{					//it's a printable key
+
+      k = pgm_read_byte(_asciimap + k);
+
+      if (k & 0x80) {					// it's a capital letter or other character reached with shift
+        _keyReport.modifiers &= ~(0x02);	// the left shift modifier
+        k &= 0x7F;
+      }
+      if (k & 0x40) {
+        _keyReport.modifiers &= ~(0x40);       // the altgr shift modifier
+        k &= 0x3F;
+      }
+      if (k == 0x03) { // special case 0x64
+        k = 0x64;
+      }
+
+      if (k >= 136) {			// it's a non-printing key (not a modifier)
+        k = k - 136;
+      }
+    }
 	}
-	if (k & 0x40) {
-		_keyReport.modifiers &= ~(0x40);
-		k &= 0x3F;
-	}
-	if (k == 0x03) { // special case 0x64
-		k = 0x64;
-	}
-	
+
 	// Test the key report to see if k is present.  Clear it if it exists.
 	// Check all positions in case the key is present more than once (which it shouldn't be)
 	for (i=0; i<6; i++) {
